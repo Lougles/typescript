@@ -38,8 +38,6 @@ class Zhiguli_8 {
   }
 }
 
-
-
 const auto = new Zhiguli_8();
 
 try {
@@ -64,7 +62,6 @@ class myClass {
   }
 }
 
-
 //inheritance   (use parent's class functions)
 class classA {
   myMethod () {
@@ -75,7 +72,6 @@ class classA {
 class classB extends classA {
   
 }
-
 
 //polymorphism  (you can change return value of parent's class functions)
 class Animal {
@@ -102,7 +98,6 @@ cat.say(); // Meow
 const dog = new Dog();
 dog.say(); // Woof
 
-
 //abstraction (you have to use like that: one function do one thing, and finally last abstraction function use previous functions)
 class classAbstraction {
   private process1 () {
@@ -119,7 +114,6 @@ class classAbstraction {
     return this.process1() + this.process2() + this.process3();
   }
 }
-
 
 //SOLID
 
@@ -177,7 +171,6 @@ interface HtmlInterface {
   htmlParse(): string;
 }
 
-
 class Parser implements JsonInterface, HtmlInterface {
   public jsonParse(): string {
       return 'Json';
@@ -187,7 +180,6 @@ class Parser implements JsonInterface, HtmlInterface {
       return 'Html';
   }
 }
-
 
 //Dependency inversion principle 
 
@@ -218,19 +210,19 @@ class Animals {
   }
 }
 
-
 //Constructor and Methods
 
 class House {
-  private street:string;
   private tenants:string[] = [];
 
-  constructor (n: string) {
-    this.street = n;
-  }
+  constructor (private readonly type: string, private street: string) {}
 
   public showAddress (this: House) {
     console.log('Address: ' + this.street);
+  }
+
+  public showType (this: House) {
+    console.log('House Type: ' + this.type);
   }
 
   public addTenant (tenant: string) {
@@ -242,15 +234,32 @@ class House {
   }
 }
 
-const house = new House('Middle-earth');
+class StoneHouse extends House  {
+  private chargeOfTheHouse: string; // Главный в доме
 
-house.addTenant('Anton');
-house.addTenant('Nikita');
+  constructor (street: string, generalTenant: string) {
+    super('stone', street); // Вызов родительского конструктора
 
-house.showTenants();
+    // Добавляем владельца квартиры
+    this.chargeOfTheHouse = generalTenant;
+    this.addTenant(generalTenant);
+  }
 
-house.showAddress();
+  public showTenants () {
+    console.log('General: ' + this.chargeOfTheHouse);
 
+    // Запускаем родительский метод showTenants();
+    super.showTenants();
+  }
+}
+
+const stoneHouse = new StoneHouse('Stone-world', 'Max');
+
+stoneHouse.addTenant('Anton');
+stoneHouse.addTenant('Nikita');
+
+stoneHouse.showTenants();
+stoneHouse.showType();
 
 class A {
   // private someProperty = 'str';  //if you use private you will get a mistake
@@ -263,5 +272,133 @@ class B extends A {
   }
 }
 
+// GETTER - SETTER
+
+type PersonInformation = {
+  firstName?: string;
+  lastName?:  string;
+}
+
+class Person {
+  private personInfo: PersonInformation = {};
+
+  set firstName (value: string) {
+    console.log('firstName added');
+    this.personInfo.firstName = value;
+  }
+
+  set lastName (value: string) {
+    console.log('lastName added');
+    this.personInfo.lastName = value;
+  }
+
+  get info () {
+    const { personInfo } = this;
+    return `${personInfo.lastName} ${personInfo.firstName}`;
+  }
+}
+
+const person = new Person();
+
+person.lastName = 'Pupkin';
+person.firstName = 'Petha';
+
+console.log(person.info);
+
+// Static methods and properties
+
+class UseStatic {
+  private static count = 0;
+
+  constructor () {
+    UseStatic.count += 1;
+  }
+
+  public static itStaticMethod () {
+    console.log('Run static method');
+  }
+
+  public showCount () {
+    console.log(UseStatic.count);
+  }
+}
+
+const obj1 = new UseStatic();
+const obj2 = new UseStatic();
+const obj3 = new UseStatic();
+
+obj1.showCount();
+obj2.showCount();
+obj3.showCount();
+
+UseStatic.itStaticMethod();
+
+//Abstract classes
+
+abstract class Plane {
+  protected pilotInCabin = false;
+
+  public sitInPlane () {
+    this.pilotInCabin = true;
+  }
+
+  public abstract startEngine(): boolean;
+}
+
+class Maize extends Plane {
+  public startEngine () {
+    // Запускаем винты двигателя
+    return true;
+  }
+}
+
+class Boeing extends Plane {
+  public startEngine () {
+    // Разогреваем реактивные турбины
+    return true;
+  }
+}
+
+//interface of objects
+// Interface we can use only for objects, and not for classes
+
+// interface IPerson {
+//   name: string;
+//   age: number;
+
+//   greet(phrase: string): void;
+// }
+
+// let user: IPerson;
+
+// user = {
+//   name: 'Anthony',
+//   age: 21,
+
+//   greet(phrase) {
+//     console.log(phrase + ' ' + this.name );
+//   }
+// };
+
+// user.greet('Всем привет я');
+
+//type can use for classes and for object
+type IPerson = {
+  name: string;
+  age: number;
+
+  greet(phrase: string): void;
+}
+
+let user: IPerson;
+
+user = {
+  name: 'Anthony',
+  age: 21,
+
+  greet(phrase) {
+    console.log(phrase + ' ' + this.name );
+  },
+};
 
 
