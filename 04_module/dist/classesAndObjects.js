@@ -290,7 +290,8 @@ const db = new DB();
 const server = new Server(db);
 server.init();
 console.groupEnd();
-console.group();
+console.group('Aggregation');
+console.log('Агрегация — это специализированная разновидность ассоциации, которая описывает отношения один-ко-многим, многие-ко-многим, часть-целое между несколькими объектами, тогда как ассоциация устанавливает связь только между двумя объектами.');
 class MyPerson {
     constructor(name) {
         this.name = name;
@@ -313,7 +314,7 @@ home.addGuest(guest2);
 home.addGuest(guest3);
 console.log(home);
 console.groupEnd();
-console.group();
+console.group('Композиція');
 class PersonComposition {
     constructor(name) {
         this.name = name;
@@ -333,5 +334,112 @@ homeComposition.addTenant('Max');
 homeComposition.addTenant('Anton');
 homeComposition.addTenant('Nikita');
 console.log(homeComposition);
+console.groupEnd();
+console.group('singleton');
+class Singleton {
+    constructor() { }
+    static getInstance() {
+        if (!Singleton.instance) {
+            Singleton.instance = new Singleton();
+        }
+        return Singleton.instance;
+    }
+    someBusinessLogic() {
+    }
+}
+const s1 = Singleton.getInstance();
+const s2 = Singleton.getInstance();
+if (s1 === s2) {
+    console.log('Тот же объект');
+}
+else {
+    console.log('Че-то не так, получили разные объекты');
+}
+console.log('----------');
+class SingletonTwo {
+    constructor() {
+        if (SingletonTwo.instance) {
+            return SingletonTwo.instance;
+        }
+        SingletonTwo.instance = this;
+        return SingletonTwo.instance;
+    }
+    someBusinessLogic() {
+    }
+}
+const s1Two = new SingletonTwo();
+const s2Two = new SingletonTwo();
+if (s1Two === s2Two) {
+    console.log('Тот же объект');
+}
+else {
+    console.log('Че-то не так, получили разные объекты');
+}
+console.groupEnd();
+console.group('Фабрика');
+console.log('Используется, когда нам нужно много однотипных объектов общим интерфейсом.');
+class Creator {
+    someOperation() {
+        const product = this.factoryMethod();
+        return `Creator: I'm starting ${product.operation()}`;
+    }
+}
+console.log('первый подход (ПЛОХОЙ)');
+class ConcreteProduct1 {
+    operation() {
+        return 'ConcreteProduct1';
+    }
+}
+class ConcreteProduct2 {
+    operation() {
+        return 'ConcreteProduct2';
+    }
+}
+class ConcreteCreator1 extends Creator {
+    factoryMethod() {
+        return new ConcreteProduct1();
+    }
+}
+class ConcreteCreator2 extends Creator {
+    factoryMethod() {
+        return new ConcreteProduct2();
+    }
+}
+const concrete1 = new ConcreteCreator1();
+const concrete2 = new ConcreteCreator2();
+console.log(concrete1.someOperation());
+console.log(concrete2.someOperation());
+console.log('Second (Correct)');
+class Small {
+    getInfo() {
+        console.log("I'm small");
+    }
+}
+class Big {
+    getInfo() {
+        console.log("I'm big");
+    }
+}
+class Factory {
+    constructor() {
+        this.objects = {
+            small: Small,
+            big: Big,
+        };
+    }
+    create(type) {
+        const { objects } = this;
+        type = type.toLowerCase();
+        if (!objects[type]) {
+            throw new Error('No classes to create');
+        }
+        return new objects[type]();
+    }
+}
+const factory = new Factory();
+const small = factory.create('small');
+const big = factory.create('big');
+small.getInfo();
+big.getInfo();
 console.groupEnd();
 //# sourceMappingURL=classesAndObjects.js.map

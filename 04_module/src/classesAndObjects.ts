@@ -460,10 +460,12 @@ const server = new Server(db);
 server.init();
 
 console.groupEnd();
+//===================================================================================================
 
 
 
-console.group()
+console.group('Aggregation')
+console.log('Агрегация — это специализированная разновидность ассоциации, которая описывает отношения один-ко-многим, многие-ко-многим, часть-целое между несколькими объектами, тогда как ассоциация устанавливает связь только между двумя объектами.')
 
 class MyPerson {
   constructor (public name: string) {}
@@ -488,9 +490,9 @@ home.addGuest(guest2);
 home.addGuest(guest3);
 console.log(home)
 console.groupEnd();
+//===================================================================================================
 
-
-console.group()
+console.group('Композиція')
 
 class PersonComposition {
   constructor (public name: string) {}
@@ -512,5 +514,162 @@ homeComposition.addTenant('Anton');
 homeComposition.addTenant('Nikita');
 
 console.log(homeComposition)
+
+console.groupEnd();
+//===================================================================================================
+console.group('singleton')
+
+class Singleton {
+  private static instance: Singleton;
+
+  private constructor() { }
+
+  public static getInstance(): Singleton {
+      if (!Singleton.instance) {
+          Singleton.instance = new Singleton();
+      }
+
+      return Singleton.instance;
+  }
+
+  public someBusinessLogic() {
+      // ...
+  }
+}
+
+const s1 = Singleton.getInstance();
+const s2 = Singleton.getInstance();
+
+if (s1 === s2) {
+    console.log('Тот же объект');
+} else {
+    console.log('Че-то не так, получили разные объекты');
+}
+
+console.log('----------')
+
+class SingletonTwo {
+  private static instance: SingletonTwo;
+
+  constructor() {
+    if (SingletonTwo.instance) {
+      return SingletonTwo.instance;
+    }
+
+    SingletonTwo.instance = this;
+
+    return SingletonTwo.instance;
+  }
+
+  public someBusinessLogic() {
+      // ...
+  }
+}
+
+const s1Two = new SingletonTwo();
+const s2Two = new SingletonTwo();
+
+if (s1Two === s2Two) {
+    console.log('Тот же объект');
+} else {
+    console.log('Че-то не так, получили разные объекты');
+}
+
+console.groupEnd();
+
+
+console.group('Фабрика');
+console.log('Используется, когда нам нужно много однотипных объектов общим интерфейсом.')
+
+abstract class Creator {
+  public abstract factoryMethod(): Product;
+
+  public someOperation(): string {
+      // Вызываем фабричный метод, чтобы получить объект-продукт.
+      const product = this.factoryMethod();
+      // Далее, работаем с этим продуктом.
+      return `Creator: I'm starting ${product.operation()}`;
+  }
+}
+
+console.log('первый подход (ПЛОХОЙ)')
+interface Product {
+  operation(): string;
+}
+
+class ConcreteProduct1 implements Product {
+  public operation(): string {
+      return 'ConcreteProduct1';
+  }
+}
+
+class ConcreteProduct2 implements Product {
+  public operation(): string {
+      return 'ConcreteProduct2';
+  }
+}
+
+class ConcreteCreator1 extends Creator {
+  public factoryMethod(): Product {
+      return new ConcreteProduct1();
+  }
+}
+
+class ConcreteCreator2 extends Creator {
+  public factoryMethod(): Product {
+      return new ConcreteProduct2();
+  }
+}
+
+const concrete1 = new ConcreteCreator1();
+const concrete2 = new ConcreteCreator2();
+
+console.log(concrete1.someOperation());
+console.log(concrete2.someOperation());
+
+
+
+console.log('Second (Correct)')
+
+interface IProduct {
+  getInfo(): void;
+}
+
+class Small implements IProduct{
+  getInfo(): void {
+    console.log("I'm small");
+  }
+}
+class Big implements IProduct{
+  getInfo(): void {
+    console.log("I'm big");
+  }
+}
+
+class Factory {
+  private objects = {
+    small: Small,
+    big: Big,
+  } as any;
+
+  create (type:string): IProduct {
+    const { objects } = this;
+
+    type = type.toLowerCase();
+    if (!objects[type]) {
+      throw new Error('No classes to create');
+    }
+
+    return new objects[type]();
+  }
+}
+
+const factory = new Factory();
+
+const small = factory.create('small');
+const big = factory.create('big');
+
+small.getInfo();
+big.getInfo();
 
 console.groupEnd();
