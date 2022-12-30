@@ -1,3 +1,5 @@
+console.group();
+
 class Zhiguli_8 {
   private needRepair = false;
   private maxEngineLoad = 3;
@@ -50,6 +52,8 @@ try {
   auto.repairEngine();
   auto.startEngine();
 }
+console.groupEnd();
+console.group();
 
 //encapsulation (private and public, access modificator)
 class myClass {
@@ -114,7 +118,6 @@ class classAbstraction {
     return this.process1() + this.process2() + this.process3();
   }
 }
-
 //SOLID
 
 //Liskov Barbara
@@ -154,6 +157,9 @@ class ElectricBus extends Vehicle {
       // Connection logic
   }
 }
+console.groupEnd();
+console.group();
+
 
 class Driver {
   go(v: Vehicle) {
@@ -333,72 +339,178 @@ obj3.showCount();
 
 UseStatic.itStaticMethod();
 
-//Abstract classes
+// Readonly
 
-abstract class Plane {
-  protected pilotInCabin = false;
-
-  public sitInPlane () {
-    this.pilotInCabin = true;
-  }
-
-  public abstract startEngine(): boolean;
+interface ITest {
+  readonly name: string;
 }
 
-class Maize extends Plane {
-  public startEngine () {
-    // Запускаем винты двигателя
-    return true;
-  }
+const pers:ITest = {
+  name: 'Person Name',
 }
 
-class Boeing extends Plane {
-  public startEngine () {
-    // Разогреваем реактивные турбины
-    return true;
-  }
-}
+// pers.name = 'Person name';    <-- Cannot assign to 'name' because it is a read-only property
 
-//interface of objects
-// Interface we can use only for objects, and not for classes
+// extending interfaces 
 
-// interface IPerson {
-//   name: string;
-//   age: number;
-
-//   greet(phrase: string): void;
-// }
-
-// let user: IPerson;
-
-// user = {
-//   name: 'Anthony',
-//   age: 21,
-
-//   greet(phrase) {
-//     console.log(phrase + ' ' + this.name );
-//   }
-// };
-
-// user.greet('Всем привет я');
-
-//type can use for classes and for object
-type IPerson = {
+interface IPersonOther {
   name: string;
   age: number;
 
   greet(phrase: string): void;
 }
 
-let user: IPerson;
+interface IPilotOther extends IPersonOther {
+  flyMessage(): void;
+}
 
-user = {
-  name: 'Anthony',
-  age: 21,
+// interfaces like type of functions 
 
-  greet(phrase) {
-    console.log(phrase + ' ' + this.name );
-  },
-};
+type AddFunc = (n1: number, n2: number) => number;
+
+let add: AddFunc;
+
+add = (n1:number, n2: number) => {
+  return n1 + n2;
+}
+
+//type AddNewFunc = (n1: number, n2: number) => number;
+interface AddNewFunc {
+  (n1: number, n2: number): number;
+}
+
+let addNew: AddNewFunc;
+
+add = (n1:number, n2: number) => {
+  return n1 + n2;
+}
+
+//Optional parametres
+
+interface IPersonOptional {
+  name?: string;
+  age: number;
+}
+
+class PersonOptional implements IPersonOptional {
+  name?: string;
+  
+  constructor (public age: number) {}
+
+  setName (n:string) {
+    this.name = n;
+  }
+}
+
+// extension example
+
+type ItemType = {
+  name: string;
+}
+
+class Catalog {
+  showCatalog (items: ItemType[]) {
+    items.forEach((item) => {
+      console.log(item.name);
+    });
+  }
+}
+
+class Items {
+  private items: ItemType[] = [];
+  setItem (name: string) {
+    this.items.push({name});
+  }
+
+  getItems (): ItemType[] {
+    return this.items;
+  }
+}
+
+const items = new Items();
+const catalog = new Catalog();
+
+items.setItem('Catalog 1');
+items.setItem('Catalog 2');
+items.setItem('Catalog 3');
+
+catalog.showCatalog(items.getItems());
 
 
+
+//Assosiation exampple
+
+class DB {
+  connection () {
+    console.log('Db connected');
+  }
+}
+
+class Server {
+  constructor (private database: DB) {}
+
+  init () {
+    this.database.connection();
+  }
+}
+
+const db = new DB();
+const server = new Server(db);
+
+server.init();
+
+console.groupEnd();
+
+
+
+console.group()
+
+class MyPerson {
+  constructor (public name: string) {}
+}
+
+class Home {
+  private guests: MyPerson[] = [];
+
+  addGuest (guest: MyPerson) {
+    this.guests.push(guest);
+  }
+}
+
+const home = new Home();
+
+const guest1 = new MyPerson('Max');
+const guest2 = new MyPerson('Anton');
+const guest3 = new MyPerson('Nikita');
+
+home.addGuest(guest1);
+home.addGuest(guest2);
+home.addGuest(guest3);
+console.log(home)
+console.groupEnd();
+
+
+console.group()
+
+class PersonComposition {
+  constructor (public name: string) {}
+}
+
+class HomeComposition {
+  private tenants: PersonComposition[] = [];
+
+  addTenant (name: string) {
+    const tenant = new PersonComposition(name);
+    this.tenants.push(tenant);
+  }
+}
+
+const homeComposition = new HomeComposition();
+
+homeComposition.addTenant('Max');
+homeComposition.addTenant('Anton');
+homeComposition.addTenant('Nikita');
+
+console.log(homeComposition)
+
+console.groupEnd();
