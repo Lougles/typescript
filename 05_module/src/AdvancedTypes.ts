@@ -113,10 +113,47 @@ function useVehicle(vehicle: Vehicle) {
 
 console.groupEnd();
 
-console.group('')
+
+//======================================== Type Casting ================================================
+
+console.group('Type Casting')
+//first variant
+const input = <HTMLInputElement>document.getElementById('inputEmail');
+
+input.value = 'test@test.ts';
+
+//second variant
+const inputTwo = document.getElementById('inputEmail') as HTMLInputElement;
+
+inputTwo.value = 'test@test.ts';
+//third variant
+const inputThird = document.getElementById('inputEmail');
+
+if (inputThird) {
+  (inputThird as HTMLInputElement).value = 'test@test.ts';
+}
 console.groupEnd();
-console.group('')
+
+//======================================== Index Properties ================================================
+
+console.group('Index Properties')
+
+interface Person {
+  name: string;
+  [x: string]: string;
+}
+
+const user: Person = {
+  name: 'Alex',
+  gender: 'MAN',
+  country: 'Ukraine',
+}
+
+
 console.groupEnd();
+
+
+
 console.group('')
 console.groupEnd();
 console.group('')

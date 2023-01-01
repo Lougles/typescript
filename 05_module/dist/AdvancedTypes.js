@@ -48,9 +48,22 @@ function useVehicle(vehicle) {
     }
 }
 console.groupEnd();
-console.group('');
+console.group('Type Casting');
+const input = document.getElementById('inputEmail');
+input.value = 'test@test.ts';
+const inputTwo = document.getElementById('inputEmail');
+inputTwo.value = 'test@test.ts';
+const inputThird = document.getElementById('inputEmail');
+if (inputThird) {
+    inputThird.value = 'test@test.ts';
+}
 console.groupEnd();
-console.group('');
+console.group('Index Properties');
+const user = {
+    name: 'Alex',
+    gender: 'MAN',
+    country: 'Ukraine',
+};
 console.groupEnd();
 console.group('');
 console.groupEnd();
