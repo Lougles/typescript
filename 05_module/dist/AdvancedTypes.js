@@ -60,7 +60,7 @@ if (inputThird) {
 }
 console.groupEnd();
 console.group('Index Properties');
-const user = {
+const userProperties = {
     name: 'Alex',
     gender: 'MAN',
     country: 'Ukraine',
@@ -71,6 +71,41 @@ const userChaining = {
     name: 'Alex'
 };
 console.log((_a = userChaining === null || userChaining === void 0 ? void 0 : userChaining.additionInfo) === null || _a === void 0 ? void 0 : _a.someInfo);
+console.log(userChaining.additionInfo && userChaining.additionInfo.someInfo);
+console.groupEnd();
+console.group('Nullish Coalescing');
+const userInputCoalescing = '';
+const storeCoalescing = userInputCoalescing || 'DEFAULT';
+console.log(storeCoalescing);
+const userInput = '';
+const store = userInput !== null && userInput !== void 0 ? userInput : 'DEFAULT';
+console.log(store);
+console.groupEnd();
+console.group('Function Overload');
+function add(a, b) {
+    if (typeof a === 'string' || typeof b === 'string') {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+function checkUser(name, type) {
+    if (type === 'admin') {
+        return {
+            name,
+            type: 'admin'
+        };
+    }
+    else {
+        return {
+            name,
+            type: 'user'
+        };
+    }
+}
+const user = checkUser('Nikita', 'user');
+const admin = checkUser('Tonya', 'admin');
+console.groupEnd();
+console.group('');
 console.groupEnd();
 console.group('');
 console.groupEnd();

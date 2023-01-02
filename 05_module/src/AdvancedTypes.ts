@@ -143,7 +143,7 @@ interface Person {
   [x: string]: string;
 }
 
-const user: Person = {
+const userProperties: Person = {
   name: 'Alex',
   gender: 'MAN',
   country: 'Ukraine',
@@ -169,9 +169,101 @@ const userChaining: ChainingPerson = {
 
 console.log(userChaining?.additionInfo?.someInfo);
 
+//Ми поставили ? перед викликом властивості, в якій ми не впевнені, тим самим уникнули помилки.
+
+//В JS нам довелося б писати ось так.
+console.log(userChaining.additionInfo && userChaining.additionInfo.someInfo);
+
+console.groupEnd();
+
+//======================================== Nullish Coalescing ================================================
+
+console.group('Nullish Coalescing')
+
+//There is such code
+const userInputCoalescing = '';
+
+const storeCoalescing = userInputCoalescing || 'DEFAULT';
+
+console.log(storeCoalescing);
+
+// This code return "DEFAULT"
+
+//Але можливо нам би хотілося повернути DEFAULT тільки у тому випадку, 
+//якщо там реально null або undefined. Для цього є оператор ??.
+
+const userInput = '';
+
+const store = userInput ?? 'DEFAULT';
+
+console.log(store);
+
+//І тепер DEFAULT буде тільки тоді, коли userInput дорівнюватиме null або undefined.
+console.groupEnd();
+
+//======================================== Function Overload ================================================
+
+console.group('Function Overload')
+
+//Зазвичай, в суворо типізованих мовах є перевантаження операторів, 
+//це коли залежно від типу (або кількості) вхідних параметрів повертається різний результат і різні типи.
+//Але якщо в цих мовах це явно функції з різною реалізацією, але з тим самим ім'ям, то в TypeScript це більше як костиль, 
+//який дозволяє повернути інший тип даних, залежно від вхідних параметрів.
+
+type Combinable = string | number;
+
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: string, b: number): string;
+function add(a: number, b: string): string;
+function add(a: Combinable, b: Combinable) {
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
+  }
+  return a + b;
+}
+
+//Просто зверху функції ми робимо дублі з її ім'ям, вказуючи вхідні типи аргументів і тип, що повертається.
+//Зрозуміліший приклад з кастомними типами, ми перевіряємо користувача та створюємо об'єкт різних типів, 
+//залежно від типу користувача, адмін це чи звичайний користувач.
+
+type AdminType = {
+  type: 'admin';
+  name: string;
+}
+
+type UserType = {
+  type: 'user';
+  name: string;
+}
+
+function checkUser (name: string, type: 'admin'): AdminType;
+function checkUser (name: string, type: 'user'): UserType;
+function checkUser (name: string, type: 'admin' | 'user') {
+  if (type === 'admin') {
+    return {
+      name,
+      type: 'admin'
+    }
+  } else {
+    return {
+      name,
+      type: 'user'
+    }
+  }
+}
+
+const user = checkUser('Nikita', 'user');
+const admin = checkUser('Tonya', 'admin');
+
+//Nikita буде в об'єкті з типом AdminType, а Tonya із типом UserType. 
+//Залежно від вхідних параметрів, ми повернули результат різних типів.
+
 console.groupEnd();
 
 
 
+console.group('')
+console.groupEnd();
 console.group('')
 console.groupEnd();
