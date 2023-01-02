@@ -148,13 +148,30 @@ const user: Person = {
   gender: 'MAN',
   country: 'Ukraine',
 }
+console.groupEnd();
 
+//======================================== Optional Chaining ================================================
+
+
+console.group('Optional Chaining')
+
+
+interface ChainingPerson {
+  name: string;
+  additionInfo?: {
+    someInfo: string;
+  }
+}
+
+const userChaining: ChainingPerson = {
+  name: 'Alex'
+}
+
+console.log(userChaining?.additionInfo?.someInfo);
 
 console.groupEnd();
 
 
 
-console.group('')
-console.groupEnd();
 console.group('')
 console.groupEnd();

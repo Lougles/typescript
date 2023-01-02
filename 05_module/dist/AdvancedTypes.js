@@ -1,4 +1,5 @@
 "use strict";
+var _a;
 console.group('Intersaction Types');
 console.log('and now join it together');
 const e1 = {
@@ -65,7 +66,11 @@ const user = {
     country: 'Ukraine',
 };
 console.groupEnd();
-console.group('');
+console.group('Optional Chaining');
+const userChaining = {
+    name: 'Alex'
+};
+console.log((_a = userChaining === null || userChaining === void 0 ? void 0 : userChaining.additionInfo) === null || _a === void 0 ? void 0 : _a.someInfo);
 console.groupEnd();
 console.group('');
 console.groupEnd();
