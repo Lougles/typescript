@@ -261,9 +261,53 @@ const admin = checkUser('Tonya', 'admin');
 
 console.groupEnd();
 
+//======================================== Generics ================================================
+console.group('Generics')
 
+let arrGenerics: any[] = [];
 
-console.group('')
+let arr: Array<string | number> = [];
+
+const promise: Promise<string> = new Promise((resolve) => {
+  setInterval(() => {
+    resolve('Done!');
+  }, 1000);
+});
+
+promise.then((data) => {
+  console.log(data);
+});
+
 console.groupEnd();
-console.group('')
+
+//======================================== Generic function/method  ================================================
+console.group('Generic function/method')
+
+function mergeGen (objA: object, objB: object) {
+  return Object.assign(objA, objB);
+}
+const mergedGeneric = mergeGen({name: 'Alisa'}, {age: 28});
+
+// mergedGeneric.name;  <---  mistake
+
+const mergedBad = mergeGen({name: 'Alisa'}, {age: 28}) as {name: string, age: number}; //Bad code
+
+function merge<T, U>(objA: T, objB: U) {
+  return Object.assign(objA, objB);
+}
+
+const merged = merge({name: 'Alisa'}, {age: 28});
+
+merged.age;
+
+type PersonGeneric = {
+  name: string;
+}
+
+type AdditionFields = {
+  age: number;
+}
+
+const mergedPerson = merge<PersonGeneric, AdditionFields>({name: 'Alisa'}, {age: 28});
+
 console.groupEnd();

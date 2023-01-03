@@ -105,8 +105,23 @@ function checkUser(name, type) {
 const user = checkUser('Nikita', 'user');
 const admin = checkUser('Tonya', 'admin');
 console.groupEnd();
-console.group('');
+console.group('Generics');
+let arrGenerics = [];
+let arr = [];
+const promise = new Promise((resolve) => {
+    setInterval(() => {
+        resolve('Done!');
+    }, 1000);
+});
+promise.then((data) => {
+    console.log(data);
+});
 console.groupEnd();
-console.group('');
+console.group('Generic function/method');
+function merge(objA, objB) {
+    return Object.assign(objA, objB);
+}
+const mergedGeneric = merge({ name: 'Alisa' }, { age: 28 });
+const merged = merge({ name: 'Alisa' }, { age: 28 });
 console.groupEnd();
 //# sourceMappingURL=AdvancedTypes.js.map
