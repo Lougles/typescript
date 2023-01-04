@@ -152,4 +152,18 @@ class StoreClass {
 }
 const storeClasses = new StoreClass();
 storeClasses.addItem('test');
+function createPerson(name) {
+    const person = {};
+    person.name = name;
+    person.age = 21;
+    return person;
+}
+const arrReadonly = ['One', 'Two', 'Three'];
+const arrReadonlyEnvironment = {
+    temperature: 27,
+};
+const pageAnnotation = {
+    annotation: 'Small page',
+    numberPage: 1,
+};
 //# sourceMappingURL=AdvancedTypes.js.map

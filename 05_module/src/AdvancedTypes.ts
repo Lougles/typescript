@@ -362,3 +362,48 @@ class StoreClass<T> {
 const storeClasses = new StoreClass<string>();
 
 storeClasses.addItem('test');
+
+
+//======================================== Utility Types  ================================================
+
+
+//Patrial
+interface IPerson {
+  name: string;
+  age: number;
+}
+
+function createPerson (name: string): IPerson {
+  const person: Partial<IPerson> = {};
+
+  person.name = name;
+  person.age = 21;
+
+  return person as IPerson;
+}
+
+//Readonly
+
+const arrReadonly: Readonly<string[]> = ['One', 'Two', 'Three'];
+
+type Environment = {
+  temperature: number;
+}
+
+const arrReadonlyEnvironment: Readonly<Environment> = {
+  temperature: 27,
+};
+
+//Pick
+
+
+interface Page {
+  title: string;
+  annotation: string;
+  numberPage: number;
+}
+
+const pageAnnotation: Pick<Page, 'annotation' | 'numberPage'> = {
+  annotation: 'Small page',
+  numberPage: 1,
+};
