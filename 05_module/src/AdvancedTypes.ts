@@ -314,6 +314,7 @@ console.groupEnd();
 
 
 //======================================== Extends  ================================================
+console.group('Extends')
 
 function merge<T extends object, U extends object>(objA: T, objB: U) {
   return Object.assign(objA, objB);
@@ -333,4 +334,14 @@ function getLength<T extends ILength>(str:T) {
 }
 
 getLength('text');
+console.groupEnd();
+
+//======================================== keyof  ================================================
+
+
+function extractValue<T extends object, U extends keyof T> (obj:T, key:U) {
+  return obj[key];
+}
+
+extractValue({name: 'Sergei'}, 'name');
 

@@ -124,6 +124,7 @@ function mergeGen(objA, objB) {
 const mergedGeneric = mergeGen({ name: 'Alisa' }, { age: 28 });
 const mergedBad = mergeGen({ name: 'Alisa' }, { age: 28 });
 console.groupEnd();
+console.group('Extends');
 function merge(objA, objB) {
     return Object.assign(objA, objB);
 }
@@ -133,4 +134,9 @@ function getLength(str) {
     return str.length;
 }
 getLength('text');
+console.groupEnd();
+function extractValue(obj, key) {
+    return obj[key];
+}
+extractValue({ name: 'Sergei' }, 'name');
 //# sourceMappingURL=AdvancedTypes.js.map
