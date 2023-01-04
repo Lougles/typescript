@@ -118,10 +118,10 @@ promise.then((data) => {
 });
 console.groupEnd();
 console.group('Generic function/method');
-function merge(objA, objB) {
+function mergeGen(objA, objB) {
     return Object.assign(objA, objB);
 }
-const mergedGeneric = merge({ name: 'Alisa' }, { age: 28 });
-const merged = merge({ name: 'Alisa' }, { age: 28 });
+const mergedGeneric = mergeGen({ name: 'Alisa' }, { age: 28 });
+const mergedBad = mergeGen({ name: 'Alisa' }, { age: 28 });
 console.groupEnd();
 //# sourceMappingURL=AdvancedTypes.js.map

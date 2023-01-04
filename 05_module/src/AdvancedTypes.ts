@@ -292,13 +292,13 @@ const mergedGeneric = mergeGen({name: 'Alisa'}, {age: 28});
 
 const mergedBad = mergeGen({name: 'Alisa'}, {age: 28}) as {name: string, age: number}; //Bad code
 
-function merge<T, U>(objA: T, objB: U) {
-  return Object.assign(objA, objB);
-}
+// function merge<T, U>(objA: T, objB: U) {
+//   return Object.assign(objA, objB);    incorrect example in lection
+// }
 
-const merged = merge({name: 'Alisa'}, {age: 28});
+// const merged = merge({name: 'Alisa'}, {age: 28});
 
-merged.age;
+// merged.name; <--- mistake
 
 type PersonGeneric = {
   name: string;
@@ -308,6 +308,11 @@ type AdditionFields = {
   age: number;
 }
 
-const mergedPerson = merge<PersonGeneric, AdditionFields>({name: 'Alisa'}, {age: 28});
+// const mergedPerson = merge<PersonGeneric, AdditionFields>({name: 'Alisa'}, {age: 28});
 
 console.groupEnd();
+
+
+//======================================== Extends  ================================================
+
+
