@@ -139,4 +139,17 @@ function extractValue(obj, key) {
     return obj[key];
 }
 extractValue({ name: 'Sergei' }, 'name');
+class StoreClass {
+    constructor() {
+        this.data = [];
+    }
+    addItem(item) {
+        this.data.push(item);
+    }
+    getItems() {
+        return this.data;
+    }
+}
+const storeClasses = new StoreClass();
+storeClasses.addItem('test');
 //# sourceMappingURL=AdvancedTypes.js.map

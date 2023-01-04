@@ -345,3 +345,20 @@ function extractValue<T extends object, U extends keyof T> (obj:T, key:U) {
 
 extractValue({name: 'Sergei'}, 'name');
 
+//======================================== Generic Classes  ================================================
+
+class StoreClass<T> {
+  private data: T[] = [];
+
+  addItem (item:T):void {
+    this.data.push(item);
+  }
+
+  getItems (): T[] {
+    return this.data;
+  }
+}
+
+const storeClasses = new StoreClass<string>();
+
+storeClasses.addItem('test');
