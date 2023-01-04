@@ -124,4 +124,13 @@ function mergeGen(objA, objB) {
 const mergedGeneric = mergeGen({ name: 'Alisa' }, { age: 28 });
 const mergedBad = mergeGen({ name: 'Alisa' }, { age: 28 });
 console.groupEnd();
+function merge(objA, objB) {
+    return Object.assign(objA, objB);
+}
+const merged = merge({ name: 'Alisa' }, { age: 20 });
+merged.name;
+function getLength(str) {
+    return str.length;
+}
+getLength('text');
 //# sourceMappingURL=AdvancedTypes.js.map
