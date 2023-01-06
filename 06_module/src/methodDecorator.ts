@@ -127,14 +127,14 @@ function Validation (_: any, _2: string, descriptor: PropertyDescriptor) {
   }
 }
 
-class Person {
+class PersonParametres {
   @Validation
   setEmail (@CheckEmail email: string) {
     console.log(email);
   }
 }
 
-const person = new Person();
+const person = new PersonParametres();
 
 // person.setEmail('testgmail.com');
 
@@ -151,17 +151,74 @@ person.setEmail('test@gmail.com');
 
 //Погляньмо, що вони приймають.
 
-function Required(target: any, propertyName: string | Symbol) {
+function RequiredProperties(target: any, propertyName: string | Symbol) {
   console.log('Required');
   console.log(target, propertyName);
 }
 
-function PositiveNumber(target: any, propertyName: string | Symbol) {
+function PositiveNumberProperties(target: any, propertyName: string | Symbol) {
   console.log('PositiveNumber');
   console.log(target, propertyName);
 }
 
 class PersonDecorator {
+  @RequiredProperties
+  name: string;
+  @PositiveNumberProperties
+  age: number;
+
+  constructor(n: string, a: number) {
+    this.name = n;
+    this.age = a;
+  }
+}
+
+//Але тут, як у минулому прикладі, ми вже не зможемо прив'язатися до методу, давайте спробуємо написати логіку валідації.
+
+interface ValidatorConfig {
+  [property: string]: {
+    [validatableProp: string]: string[]; // ['required', 'positive']
+  };
+}
+
+const registeredValidators: ValidatorConfig = {};
+
+function Required(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: ['required']
+  };
+}
+
+function PositiveNumber(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: ['positive']
+  };
+}
+
+function validate(obj: any) {
+  const objValidatorConfig = registeredValidators[obj.constructor.name];
+  if (!objValidatorConfig) {
+    return true;
+  }
+  let isValid = true;
+  for (const prop in objValidatorConfig) {
+    for (const validator of objValidatorConfig[prop]) {
+      switch (validator) {
+        case 'required':
+          isValid = isValid && !!obj[prop];
+          break;
+        case 'positive':
+          isValid = isValid && obj[prop] > 0;
+          break;
+      }
+    }
+  }
+  return isValid;
+}
+
+class Person {
   @Required
   name: string;
   @PositiveNumber
@@ -171,4 +228,20 @@ class PersonDecorator {
     this.name = n;
     this.age = a;
   }
+}
+
+const personWrong = new Person('', -1);
+
+if (!validate(personWrong)) {
+  console.log('Validation error!');
+} else {
+  console.log('Validation ok!');
+}
+
+const personSecond = new Person('Alex', 30);
+
+if (!validate(personSecond)) {
+  console.log('Validation error!');
+} else {
+  console.log('Validation ok!');
 }
