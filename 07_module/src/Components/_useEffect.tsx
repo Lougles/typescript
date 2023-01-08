@@ -14,6 +14,7 @@ const _useEffect: FC = () => {
     getPerson();
   }, []);
 
+  
   return (
     <div>
       
