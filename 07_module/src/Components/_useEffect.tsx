@@ -14,10 +14,13 @@ const _useEffect: FC = () => {
     getPerson();
   }, []);
 
-  
+  function changeHandler (e: React.ChangeEvent<HTMLInputElement>) {
+    console.log(e.target.value);
+  }
+
   return (
     <div>
-      
+      <input onChange={changeHandler} />
     </div>
   )
 }
