@@ -5,7 +5,7 @@ type Props = {}
 
 const Refs: FC = (props)=> {
   const textInputRef = useRef<HTMLInputElement>(null);
-  // const sisenseRef = useRef(null);
+  const sisenseRef = useRef(null);
   const enteredText = textInputRef.current!.value;
 
   return (
